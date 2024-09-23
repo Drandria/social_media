@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/style/home.css">
+
+    <script src="/script/js/show-pub.js" defer></script>
+
+    <title>Document</title>
+</head>
+<body>
+
+    <nav>
+        <a href="/script/php/logout.php">Log out</a>
+    </nav>
+    
+    <form action="/script/php/publish.php" method="post">
+        <textarea name="contenu" id="contenu" placeholder="Ecrire ici votre texte" class="publication"></textarea>
+        <input type="submit" value="Publish">
+    </form>
+
+    <div class="container">
+        <div class="pub-head">
+            <h2 class="username">Username</h2>
+            <p class="date">00-00-00 00:00:00</p>
+        </div>
+        <p class="content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sunt nesciunt voluptas ex reprehenderit expedita beatae excepturi delectus recusandae pariatur!
+        </p>
+        <div class="action">
+            <button class="like">Like</button>
+            <button class="comment">Comment</button>
+        </div>
+    </div>
+
+</body>
+</html>
