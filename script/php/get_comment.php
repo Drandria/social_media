@@ -7,9 +7,9 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT publication.id, publication.contenu, publication.created_at, compte.nom_utilisateur AS username
-                FROM publication
-                JOIN compte ON publication.id_compte = compte.id";
+    $sql = "SELECT commentaire.id, commentaire.contenu, commentaire.date_heure, commentaire.id_publication, compte.nom_utilisateur AS username
+                FROM commentaire
+                JOIN compte ON commentaire.id_compte = compte.id";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute();

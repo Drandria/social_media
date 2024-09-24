@@ -2,7 +2,7 @@
 
     $host = 'localhost';
     $dbname = 'social_media';
-    $user = 'dina';
-    $pass = 'Tsuchida';
+    $user = 'mysqlUser';
+    $pass = 'azertyuiop';
 
 ?>

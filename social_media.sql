@@ -27,13 +27,13 @@ CREATE TABLE `commentaire` (
   `contenu` text NOT NULL,
   `id_compte` int NOT NULL,
   `id_publication` int NOT NULL,
-  `date_heure` datetime NOT NULL,
+  `date_heure` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_compte` (`id_compte`),
   KEY `id_publication` (`id_publication`),
   CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`),
   CONSTRAINT `commentaire_ibfk_2` FOREIGN KEY (`id_publication`) REFERENCES `publication` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `commentaire` (
 
 LOCK TABLES `commentaire` WRITE;
 /*!40000 ALTER TABLE `commentaire` DISABLE KEYS */;
+INSERT INTO `commentaire` VALUES (1,'tsy tonga',1,1,'2024-09-24 10:38:15'),(2,'tonga',1,1,'2024-09-24 12:08:19'),(3,'tsy zany',1,1,'2024-09-24 12:21:08'),(4,'zany',1,1,'2024-09-24 12:22:26'),(5,'eto amizay',1,3,'2024-09-24 12:24:55');
 /*!40000 ALTER TABLE `commentaire` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +62,7 @@ CREATE TABLE `compte` (
   `mot_de_passe` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nom_utilisateur` (`nom_utilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +71,7 @@ CREATE TABLE `compte` (
 
 LOCK TABLES `compte` WRITE;
 /*!40000 ALTER TABLE `compte` DISABLE KEYS */;
-INSERT INTO `compte` VALUES (1,'RAN','Dria','dd','ran@dria.com','$2y$10$oREULCclfXuHu2rNnqUg3uhY.XIbTmaw/iim5YYHy2HH7AFuZv04S');
+INSERT INTO `compte` VALUES (1,'RAN','Dria','dd','ran@dria.com','$2y$10$oREULCclfXuHu2rNnqUg3uhY.XIbTmaw/iim5YYHy2HH7AFuZv04S'),(2,'Us','Er','user','US@er.com','$2y$10$WzTS5sPOqtQxFYOmc54.aOabxe8c3DCqZtX34EUKJ96jcfmH/8QQ2');
 /*!40000 ALTER TABLE `compte` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,10 +86,11 @@ CREATE TABLE `publication` (
   `id` int NOT NULL AUTO_INCREMENT,
   `contenu` text NOT NULL,
   `id_compte` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_compte` (`id_compte`),
   CONSTRAINT `publication_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,6 +99,7 @@ CREATE TABLE `publication` (
 
 LOCK TABLES `publication` WRITE;
 /*!40000 ALTER TABLE `publication` DISABLE KEYS */;
+INSERT INTO `publication` VALUES (1,'ito ny pub 1',1,'2024-09-24 05:28:12'),(2,'ito ny pub 2',1,'2024-09-24 05:30:25'),(3,'ito ny pub 3',1,'2024-09-24 05:48:42'),(4,'ito ary',2,'2024-09-24 05:55:41'),(5,'jhv<hvjv',NULL,'2024-09-24 07:52:52'),(6,'hgjh',NULL,'2024-09-24 07:53:22'),(7,'aiza',1,'2024-09-24 07:55:13');
 /*!40000 ALTER TABLE `publication` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +172,7 @@ CREATE TABLE `reaction_publication` (
   KEY `id_publication` (`id_publication`),
   CONSTRAINT `reaction_publication_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`),
   CONSTRAINT `reaction_publication_ibfk_2` FOREIGN KEY (`id_publication`) REFERENCES `publication` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-23 13:08:09
+-- Dump completed on 2024-09-24 15:29:23
