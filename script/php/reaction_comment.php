@@ -22,16 +22,28 @@ if ($data) {
         $stmt->bindParam(':id_compte', $id_compte);
         $stmt->bindParam(':id_comment', $id_comment);
         $stmt->execute();
-    } catch (PDOException $e) {
-        echo "Erreur de connexion : " . $e->getMessage();
-    }
 
-    header('Content-Type: application/json');
-    echo json_encode([
-        "status" => "success",
-        "message" => "Réaction enregistrée avec succès",
-        "id_publication" => $id_publication
-    ]);
+        $count_sql = "SELECT COUNT(*) AS count FROM reaction_commentaire WHERE id_commentaire = :id_commentaire";
+        $count_stmt = $pdo->prepare($count_sql);
+        $count_stmt->bindParam(':id_commentaire', $id_comment);
+        $count_stmt->execute();
+        $count_result = $count_stmt->fetch(PDO::FETCH_ASSOC);
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "success",
+            "message" => "Réaction enregistrée avec succès",
+            "id" => $id_comment,
+            "count" => $count_result['count']
+        ]);
+
+    } catch (PDOException $e) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "error",
+            "message" => "Erreur de connexion : " . $e->getMessage()
+        ]);
+    }
 
 } else {
 

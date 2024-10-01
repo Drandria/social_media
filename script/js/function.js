@@ -11,7 +11,7 @@ async function session() {
 }
 
 
-async function like(like_button, link) {
+async function like(like_button, link, div) {
 
     const data = {
         id_ref: parseInt(like_button.value)
@@ -26,51 +26,144 @@ async function like(like_button, link) {
     })
     .then(response => response.json()) 
     .then(resultat => {
-        console.log('Succès :', resultat); 
+        console.log('Succès :', resultat);
+
+        let selector = "." + div + resultat.id + " .sum-pub-like"
+        document.querySelector(selector).textContent = resultat.count
     })
     .catch(erreur => {
         console.error('Erreur :', erreur);
     });
 }
 
+
 async function get_comment() {
     fetch('/script/php/get_comment.php')
     .then(response => response.json())
     .then(result => {
-        console.log(result)
-
-        const comment_container = document.querySelectorAll('.comment-container')
 
         result.forEach(element => {
-            comment_container.forEach(comment => {
-                if (element.id_publication == parseInt(comment.id)) {
-                    let content = `
-                        <div class="comment-element">
-                            <div class="comment-head">
-                                <h3 class="username">${element.username}</h3>
-                                <p class="date">${element.date_heure}</p>
-                            </div>
-                            <p class="content">
-                                ${element.contenu}
-                            </p>
-                            <div class="stat">
-                                <p class="like-nbr">like ${element.reaction}</p>
-                            </div>
-                            <div class="action">
-                                <button class="like like-comment" value="${element.id}">Like</button>
-                            </div>
-                        </div>
-                    `
-                    comment.innerHTML += content
-                }
-            })
+            let selector = ".pub" + element.id_publication + " .comment-container"
+            let className = "comm" + element.id
+
+            document.querySelector(selector).innerHTML += `<div class="comment-element ${className}"></div>`
+
+            com_template(element)
         })
 
-        const like_button_com = document.querySelectorAll('.like-comment')
-    
-            like_button_com.forEach(element => {
-                element.addEventListener('click', () => like(element,"/script/php/reaction_comment.php"))
-            })
+        attachCommentLikeListeners()       
 
     })
+}
+
+function attachCommentLikeListeners() {
+    const like_button_com = document.querySelectorAll('.like-comment');
+
+    like_button_com.forEach(element => {
+        element.addEventListener('click', () => like(element, "/script/php/reaction_comment.php", "comm"));
+    });
+}
+
+async function publication() {
+    fetch('/script/php/publication.php')
+    .then(res => res.json())
+    .then(data => {
+        const pub_container = document.querySelector('.pub-container')
+        pub_container.innerHTML = ""
+
+        data.forEach(element => {
+            let className = "pub" + element.id
+
+            pub_container.innerHTML += `<div class="container ${className} "></div>`
+
+            pub_template(element)
+        })
+        attachPublicationLikeListeners()
+        handleCommentSubmissions()
+    })
+}
+
+function attachPublicationLikeListeners() {
+    const like_buttons = document.querySelectorAll('.like-pub');
+
+    like_buttons.forEach(button => {
+        button.addEventListener('click', () => like(button, '/script/php/reaction.php', "pub"))
+    });
+}
+
+async function publish (content) {
+    const data = {
+        contenu: content
+    }
+
+    fetch('/script/php/publish.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(data) 
+    })
+    .then(response => response.json()) 
+    .then(resultat => {
+        console.log('Succès :', resultat);
+
+        publication()
+    })
+    .catch(erreur => {
+        console.error('Erreur :', erreur);
+    });
+}
+
+async function comment (content, id_pub) {
+    const data = {
+        contenu: content,
+        id_publication : id_pub
+    }
+
+    fetch('/script/php/comment.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(data)
+    })
+    .then (response => response.json())
+    .then (resultat => {
+
+        let select = ".pub" + id_pub + " .sum-pub-comm"
+        document.querySelector(select).textContent = resultat.length
+
+        let selector = ".pub" + id_pub + " .comment-container"
+        const comm_container = document.querySelector(selector)
+
+        comm_container.innerHTML = ""
+
+        resultat.forEach(element => {
+            let className = "comm" + element.id
+            document.querySelector(selector).innerHTML += `<div class="comment-element ${className}"></div>`
+            
+            com_template(element)
+        });
+        attachCommentLikeListeners()
+
+    })
+    .catch(erreur => {
+        console.error('Erreur :', erreur);    
+    }) 
+}
+
+function handleCommentSubmissions() {
+    const comment_form = document.querySelectorAll('.comment-form')
+
+        comment_form.forEach(element => {
+
+            element.addEventListener('submit', function (event) {
+                event.preventDefault()
+
+                let contenu = element.querySelector('.contenu-comm').value
+                let id_pub = parseInt(element.querySelector('.hidden').value)
+
+                comment(contenu, id_pub)
+            })
+        });
 }

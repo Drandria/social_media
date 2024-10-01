@@ -4,6 +4,8 @@ session_start();
 
 $data = json_decode(file_get_contents("php://input"), true);
 
+header('Content-Type: application/json');
+
 if ($data) {
     $id_publication = $data['id_ref'];
     $id_compte = $_SESSION['id'];
@@ -22,20 +24,34 @@ if ($data) {
         $stmt->bindParam(':id_compte', $id_compte);
         $stmt->bindParam(':id_publication', $id_publication);
         $stmt->execute();
+
+        $count_sql = "SELECT COUNT(*) AS count FROM reaction_publication WHERE id_publication = :id_publication";
+        $count_stmt = $pdo->prepare($count_sql);
+        $count_stmt->bindParam(':id_publication', $id_publication);
+        $count_stmt->execute();
+        $count_result = $count_stmt->fetch(PDO::FETCH_ASSOC);
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "success",
+            "message" => "Réaction enregistrée avec succès",
+            "id" => $id_publication,
+            "count" => $count_result['count']
+        ]);
+
     } catch (PDOException $e) {
-        echo "Erreur de connexion : " . $e->getMessage();
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "error",
+            "message" => "Erreur de connexion : " . $e->getMessage()
+        ]);
     }
 
-    header('Content-Type: application/json'); // Définit le type de réponse
-    echo json_encode([
-        "status" => "success",
-        "message" => "Réaction enregistrée avec succès",
-        "id_publication" => $id_publication
-    ]);
+    
 
 } else {
 
-    header('Content-Type: application/json'); // Définit le type de réponse
+    header('Content-Type: application/json');
 
     echo json_encode([
         "status" => "error",

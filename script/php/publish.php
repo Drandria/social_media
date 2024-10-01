@@ -2,9 +2,11 @@
 
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$data = json_decode(file_get_contents("php://input"), true);
+
+if ($data) {
     $id_compte = $_SESSION['id'];
-    $contenu = $_POST['contenu'];
+    $contenu = $data['contenu'];
 
     require 'db.php';
 
@@ -19,15 +21,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':contenu', $contenu);
 
         if ($stmt->execute()) {
-            header("Location: /page/home.html");
-            exit();
+            echo json_encode([
+                "status" => "success",
+                "message" => "Publication enregistrée avec succès"
+            ]);
         } else {
-            header("Location: /page/home.html");
-            exit();
+            echo json_encode([
+                "status" => "error",
+                "message" => "Erreur lors de l'enregistrement de la publication"
+            ]);
         }
     } catch (PDOException $e) {
-        echo "Erreur de connexion : " . $e->getMessage();
+        echo json_encode([
+            "status" => "error",
+            "message" => "Erreur de connexion : " . $e->getMessage()
+        ]);
     }
+} else {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Aucune donnée reçue"
+    ]);
 }
 
 ?>

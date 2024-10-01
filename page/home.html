@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="/style/home.css">
 
+    <script src="/script/js/template.js" defer></script>
     <script src="/script/js/function.js" defer></script>
     <script src="/script/js/show-pub.js" defer></script>
 
@@ -17,69 +18,14 @@
         <h3>Social Media</h3>
         <a href="/script/php/logout.php">Log out</a>
     </nav>
-    
+
     <main>
-        <form action="/script/php/publish.php" method="post">
-            <textarea name="contenu" id="contenu" placeholder="Ecrire ici votre texte" class="publication"></textarea>
-            <input type="submit" value="Publish">
+        <form class="pub-form">
+            <textarea name="contenu" id="contenu-pub" placeholder="Ecrire ici votre texte" class="publication"></textarea>
+            <button type="submit" class="submit">Publish</button>
         </form>
     
-        <div class="container">
-            <div class="pub-head">
-                <h2 class="username">Username</h2>
-                <p class="date">00-00-00 00:00:00</p>
-            </div>
-            <p class="content">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sunt nesciunt voluptas ex reprehenderit expedita beatae excepturi delectus recusandae pariatur!
-            </p>
-            <div class="stat">
-                <p class="like-nbr">like 0</p>
-                <p class="comment">comment 0</p>
-            </div>
-            <div class="action">
-                <button class="like" value="0">Like</button>
-                <button class="comment" value="0">Comment</button>
-            </div>
-            <div class="comment-container" id="0">
-                <form action="/script/php/comment.php" method="post">
-                    <input type="hidden" name="id_publication" value="">
-                    <textarea name="contenu" id="contenu" placeholder="Ecrire ici votre texte" class="publication"></textarea>
-                    <input type="submit" value="Comment">
-                </form>
-
-                <div class="comment-element">
-                    <div class="comment-head">
-                        <h3 class="username">Username</h3>
-                        <p class="date">00-00-00 00:00:00</p>
-                    </div>
-                    <p class="content">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sunt nesciunt voluptas ex reprehenderit expedita beatae excepturi delectus recusandae pariatur!
-                    </p>
-                    <div class="stat">
-                        <p class="like-nbr">like 0</p>
-                    </div>
-                    <div class="action">
-                        <button class="like" value="0">Like</button>
-                    </div>
-                </div>
-
-                <div class="comment-element">
-                    <div class="pub-head">
-                        <h3 class="username">Username</h2>
-                        <p class="date">00-00-00 00:00:00</p>
-                    </div>
-                    <p class="content">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sunt nesciunt voluptas ex reprehenderit expedita beatae excepturi delectus recusandae pariatur!
-                    </p>
-                    <div class="stat">
-                        <p class="like-nbr">like 0</p>
-                    </div>
-                    <div class="action">
-                        <button class="like" value="0">Like</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="pub-container"></div>
     </main>
 
 </body>
