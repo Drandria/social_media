@@ -33,7 +33,7 @@ CREATE TABLE `commentaire` (
   KEY `id_publication` (`id_publication`),
   CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`),
   CONSTRAINT `commentaire_ibfk_2` FOREIGN KEY (`id_publication`) REFERENCES `publication` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `commentaire` (
 
 LOCK TABLES `commentaire` WRITE;
 /*!40000 ALTER TABLE `commentaire` DISABLE KEYS */;
-INSERT INTO `commentaire` VALUES (1,'tsy tonga',1,1,'2024-09-24 10:38:15'),(2,'tonga',1,1,'2024-09-24 12:08:19'),(3,'tsy zany',1,1,'2024-09-24 12:21:08'),(4,'zany',1,1,'2024-09-24 12:22:26'),(5,'eto amizay',1,3,'2024-09-24 12:24:55');
+INSERT INTO `commentaire` VALUES (1,'tsy tonga',1,1,'2024-09-24 10:38:15'),(2,'tonga',1,1,'2024-09-24 12:08:19'),(3,'tsy zany',1,1,'2024-09-24 12:21:08'),(4,'zany',1,1,'2024-09-24 12:22:26'),(5,'eto amizay',1,3,'2024-09-24 12:24:55'),(6,'comment',1,8,'2024-09-25 04:40:11'),(7,'5',1,1,'2024-09-25 08:09:51');
 /*!40000 ALTER TABLE `commentaire` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `publication` (
   PRIMARY KEY (`id`),
   KEY `id_compte` (`id_compte`),
   CONSTRAINT `publication_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `publication` (
 
 LOCK TABLES `publication` WRITE;
 /*!40000 ALTER TABLE `publication` DISABLE KEYS */;
-INSERT INTO `publication` VALUES (1,'ito ny pub 1',1,'2024-09-24 05:28:12'),(2,'ito ny pub 2',1,'2024-09-24 05:30:25'),(3,'ito ny pub 3',1,'2024-09-24 05:48:42'),(4,'ito ary',2,'2024-09-24 05:55:41'),(5,'jhv<hvjv',NULL,'2024-09-24 07:52:52'),(6,'hgjh',NULL,'2024-09-24 07:53:22'),(7,'aiza',1,'2024-09-24 07:55:13');
+INSERT INTO `publication` VALUES (1,'ito ny pub 1',1,'2024-09-24 05:28:12'),(2,'ito ny pub 2',1,'2024-09-24 05:30:25'),(3,'ito ny pub 3',1,'2024-09-24 05:48:42'),(4,'ito ary',2,'2024-09-24 05:55:41'),(5,'jhv<hvjv',NULL,'2024-09-24 07:52:52'),(6,'hgjh',NULL,'2024-09-24 07:53:22'),(7,'aiza',1,'2024-09-24 07:55:13'),(8,'prezy',1,'2024-09-25 04:39:59'),(9,'',1,'2024-09-25 07:13:18'),(10,'ujuuuj       ;;;;',1,'2024-09-25 07:13:27');
 /*!40000 ALTER TABLE `publication` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +143,7 @@ CREATE TABLE `reaction_commentaire` (
   KEY `id_commentaire` (`id_commentaire`),
   CONSTRAINT `reaction_commentaire_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`),
   CONSTRAINT `reaction_commentaire_ibfk_2` FOREIGN KEY (`id_commentaire`) REFERENCES `commentaire` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,6 +152,7 @@ CREATE TABLE `reaction_commentaire` (
 
 LOCK TABLES `reaction_commentaire` WRITE;
 /*!40000 ALTER TABLE `reaction_commentaire` DISABLE KEYS */;
+INSERT INTO `reaction_commentaire` VALUES (1,'like',1,3),(2,'like',1,5);
 /*!40000 ALTER TABLE `reaction_commentaire` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +173,7 @@ CREATE TABLE `reaction_publication` (
   KEY `id_publication` (`id_publication`),
   CONSTRAINT `reaction_publication_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`id`),
   CONSTRAINT `reaction_publication_ibfk_2` FOREIGN KEY (`id_publication`) REFERENCES `publication` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,6 +182,7 @@ CREATE TABLE `reaction_publication` (
 
 LOCK TABLES `reaction_publication` WRITE;
 /*!40000 ALTER TABLE `reaction_publication` DISABLE KEYS */;
+INSERT INTO `reaction_publication` VALUES (4,'like',1,8),(5,'like',1,10),(6,'like',1,10),(7,'like',1,10),(8,'like',1,10),(9,'like',1,10),(14,'like',1,10),(15,'like',1,10),(16,'like',1,10),(17,'like',1,10),(18,'like',1,10),(19,'like',1,1),(21,'like',1,1),(22,'like',1,10),(23,'like',1,3);
 /*!40000 ALTER TABLE `reaction_publication` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -193,4 +195,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-24 15:29:23
+-- Dump completed on 2024-09-26 11:40:43

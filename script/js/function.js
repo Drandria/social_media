@@ -1,22 +1,35 @@
-async function like(like_button) {
+async function session() {
+    try {
+        const response = await fetch('/script/php/session.php');
+        const result = await response.json();
+        console.log(result);
+        return result.status === "active";
+    } catch (error) {
+        console.error("Erreur lors de la vérification de la session :", error);
+        return false;
+    }
+}
+
+
+async function like(like_button, link) {
 
     const data = {
-        id_publication: parseInt(like_button.value)
+        id_ref: parseInt(like_button.value)
     };
 
-    fetch('/script/php/reaction.php', {
+    fetch(link, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json' // Si tu envoies des données JSON
+            'Content-Type': 'application/json' 
         },
-        body: JSON.stringify(data) // Convertit l'objet JavaScript en chaîne JSON
+        body: JSON.stringify(data) 
     })
-    .then(response => response.json()) // Transforme la réponse en JSON (selon le cas)
+    .then(response => response.json()) 
     .then(resultat => {
-        console.log('Succès :', resultat); // Traite la réponse du serveur
+        console.log('Succès :', resultat); 
     })
     .catch(erreur => {
-        console.error('Erreur :', erreur); // Gère les erreurs
+        console.error('Erreur :', erreur);
     });
 }
 
@@ -41,16 +54,23 @@ async function get_comment() {
                                 ${element.contenu}
                             </p>
                             <div class="stat">
-                                <p class="like-nbr">like 0</p>
+                                <p class="like-nbr">like ${element.reaction}</p>
                             </div>
                             <div class="action">
-                                <button class="like" value="${element.id}">Like</button>
+                                <button class="like like-comment" value="${element.id}">Like</button>
                             </div>
                         </div>
                     `
                     comment.innerHTML += content
                 }
             })
-        });
+        })
+
+        const like_button_com = document.querySelectorAll('.like-comment')
+    
+            like_button_com.forEach(element => {
+                element.addEventListener('click', () => like(element,"/script/php/reaction_comment.php"))
+            })
+
     })
 }
